@@ -1,110 +1,81 @@
-const db = require('../models')
+const db = require('../schema')
 
-
+const productModel = new (require('../models/product'))();
 // create main Model
 const Product = db.products
 const Review = db.reviews
 
 // main work
+class ProductController {
+    async addProduct(req, res) {
+        try {
+            let data = await productModel.addProduct(req.body);
 
-// 1. create product
-
-const addProduct = async (req, res) => {
-
-    let info = {
-        title: req.body.title,
-        price: req.body.price,
-        description: req.body.description,
-        published: req.body.published ? req.body.published : false
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
     }
 
-    const product = await Product.create(info)
-    res.status(200).send(product)
-    console.log(product)
+    async getAllProducts(req, res) {
+        try {
+            let data = await productModel.getAllProducts(req.body);
 
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
+    }
+
+    async getOneProduct(req, res) {
+        try {
+            let data = await productModel.getOneProduct(req.body);
+
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
+    }
+
+    async updateProduct(req, res) {
+        try {
+            let data = await productModel.updateProduct(req.body);
+
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
+    }
+
+    async deleteProduct(req, res) {
+        try {
+            let data = await productModel.deleteProduct(req.params.id);
+
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
+    }
+
+    async getPublishedProduct(req, res) {
+        try {
+            let data = await productModel.getPublishedProduct(req.body);
+
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
+    }
+
+    async getProductReviews(req, res) {
+        try {
+            let data = await productModel.getProductReviews(req.params.id);
+
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
+    }
 }
 
-
-
-// 2. get all products
-
-const getAllProducts = async (req, res) => {
-
-    let products = await Product.findAll({})
-    res.status(200).send(products)
-
-}
-
-// 3. get single product
-
-const getOneProduct = async (req, res) => {
-
-    let id = req.params.id
-    let product = await Product.findOne({ where: { id: id }})
-    res.status(200).send(product)
-
-}
-
-// 4. update Product
-
-const updateProduct = async (req, res) => {
-
-    let id = req.params.id
-
-    const product = await Product.update(req.body, { where: { id: id }})
-
-    res.status(200).send(product)
-   
-
-}
-
-// 5. delete product by id
-
-const deleteProduct = async (req, res) => {
-
-    let id = req.params.id
-    
-    await Product.destroy({ where: { id: id }} )
-
-    res.status(200).send(`Product is deleted ! id : ${id}`)
-
-}
-
-// 6. get published product
-
-const getPublishedProduct = async (req, res) => {
-
-    const products =  await Product.findAll({ where: { price: 38000 }})
-
-    res.status(200).send(products)
-
-}
-
-// 7. connect one to many relation Product and Reviews
-
-const getProductReviews =  async (req, res) => {
-
-    const id = req.params.id
-
-    const data = await Product.findOne({
-        include: [{
-            model: Review,
-            as: 'review'
-        }],
-        where: { id: id }
-    })
-
-    res.status(200).send(data)
-
-}
-
-module.exports = {
-    addProduct,
-    getAllProducts,
-    getOneProduct,
-    updateProduct,
-    deleteProduct,
-    getPublishedProduct,
-    getProductReviews,
-    
-}
+module.exports = ProductController;

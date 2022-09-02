@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../schema')
 
 // model
 const Review = db.reviews

@@ -1,4 +1,6 @@
-module.exports={
+const Sequelize = require('sequelize');
+
+const DB_CREDENTIAL = {
     HOST:'localhost',
     USER:'root',
     PASSWORD:'',
@@ -11,4 +13,19 @@ module.exports={
         acquire:30000,
         idle:10000,
     }
+}
+
+sequelize = new Sequelize(DB_CREDENTIAL);
+sequelize.authenticate()
+.then(() => {
+    console.log('connected..')
+})
+.catch(err => {
+    console.log('Error'+ err)
+})
+
+
+module.exports = {
+    development: DB_CREDENTIAL,
+    database: sequelize,
 }
