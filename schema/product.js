@@ -1,6 +1,20 @@
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
+    class address_types extends Model {
+        static associate(models) {
+            address_types.hasMany(models.reviews, {
+            foreignKey: 'product_id',
+            as: 'review'
+        })
 
-    const Product = sequelize.define("product", {
+// db.reviews.belongsTo(db.products, {
+//     foreignKey: 'product_id',
+//     as: 'product'
+// })
+        }
+    }
+
+    address_types.init({
         title: {
             type: DataTypes.STRING,
             allowNull: false
@@ -17,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     
     })
 
-    return Product
+    return address_types;
+
 
 }

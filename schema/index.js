@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const config = require(__dirname + './configs/dbconfig.js');
+const config = require('./../config/database');
 const db = {};
 
-db.products = require('./product.js')(sequelize, DataTypes)
-db.reviews = require('./review.js')(sequelize, DataTypes)
+// db.products = require('./product.js')(sequelize, DataTypes)
+// db.reviews = require('./review.js')(sequelize, DataTypes)
 
 let sequelize;
 fs.readdirSync(__dirname).filter(file => {
@@ -25,20 +25,6 @@ Object.keys(db).forEach(modelName => {
 // db.sequelize.sync({ force: false })
 // .then(() => {
 //     console.log('yes re-sync done!')
-// })
-
-
-
-// // 1 to Many Relation
-
-// db.products.hasMany(db.reviews, {
-//     foreignKey: 'product_id',
-//     as: 'review'
-// })
-
-// db.reviews.belongsTo(db.products, {
-//     foreignKey: 'product_id',
-//     as: 'product'
 // })
 
 db.sequelize = sequelize;

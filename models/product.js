@@ -1,4 +1,4 @@
-const { product: addressTypeSchema } = require('../schema');
+const { product: productSchema } = require('../schema');
 class productModel {
     // 1. add product
     async addProduct(req, res){
@@ -10,7 +10,7 @@ class productModel {
             published: req.body.published ? req.body.published : false
         }
 
-        const product = await Product.create(info)
+        const product = await productSchema.create(info)
         res.status(200).send(product)
         console.log(product)
 
@@ -20,7 +20,7 @@ class productModel {
 
     async getAllProducts(req, res){
 
-        let products = await Product.findAll({})
+        let products = await productSchema.findAll({})
         res.status(200).send(products)
 
     }
@@ -30,7 +30,7 @@ class productModel {
     async getOneProduct(req, res){
 
         let id = req.params.id
-        let product = await Product.findOne({ where: { id: id }})
+        let product = await productSchema.findOne({ where: { id: id }})
         res.status(200).send(product)
 
     }
@@ -41,7 +41,7 @@ class productModel {
 
         let id = req.params.id
 
-        const product = await Product.update(req.body, { where: { id: id }})
+        const product = await productSchema.update(req.body, { where: { id: id }})
 
         res.status(200).send(product)
     
@@ -54,7 +54,7 @@ class productModel {
 
         let id = req.params.id
         
-        await Product.destroy({ where: { id: id }} )
+        await productSchema.destroy({ where: { id: id }} )
 
         res.status(200).send(`Product is deleted ! id : ${id}`)
 
@@ -64,7 +64,7 @@ class productModel {
 
     async getPublishedProduct(req, res){
 
-        const products =  await Product.findAll({ where: { price: 38000 }})
+        const products =  await productSchema.findAll({ where: { price: 38000 }})
 
         res.status(200).send(products)
 
@@ -76,7 +76,7 @@ class productModel {
 
         const id = req.params.id
 
-        const data = await Product.findOne({
+        const data = await productSchema.findOne({
             include: [{
                 model: Review,
                 as: 'review'
