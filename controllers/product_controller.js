@@ -70,6 +70,16 @@ class ProductController {
             res.status(401).send(error)
         }
     }
+
+    async export(req, res) {
+        try {
+            let data = await productModel.export(req.params.id);
+
+            res.status(200).send(data)
+        } catch (error) {
+            res.status(401).send(error)
+        }
+    }
 }
 
 module.exports = ProductController;
