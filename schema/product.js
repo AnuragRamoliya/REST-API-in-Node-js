@@ -1,20 +1,20 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class address_types extends Model {
+    class product extends Model {
         static associate(models) {
-            address_types.hasMany(models.reviews, {
+            product.hasMany(models.review, {
             foreignKey: 'product_id',
-            as: 'review'
-        })
-
-// db.reviews.belongsTo(db.products, {
-//     foreignKey: 'product_id',
-//     as: 'product'
-// })
+            onDelete	: 'cascade'
+            })
         }
     }
 
-    address_types.init({
+    product.init({
+        id: {
+			autoIncrement: true,
+			primaryKey: true,
+			type: DataTypes.BIGINT(20).UNSIGNED
+		},
         title: {
             type: DataTypes.STRING,
             allowNull: false
@@ -29,9 +29,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN
         }
     
-    })
+    },{
+		sequelize,
+		modelName: 'product',
+	})
 
-    return address_types;
-
-
+    return product;
 }

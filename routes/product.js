@@ -1,37 +1,34 @@
-// import controllers review, products
-const productController = require('../controllers/product_controller.js')
-const reviewController = require('../controllers/review_controller.js')
-
 
 // router
-const router = require('express').Router()
+const router = (require('express')).Router()
 
+// import controllers review, products
+const productController = new (require('../controllers/product_controller.js'))();
+const reviewController = new (require('../controllers/review_controller.js'))();
 
 // use routers
-router.post('/addProduct', productController.addProduct)
+router.route('/addProduct').post( productController.addProduct)
 
-router.get('/allProducts', productController.getAllProducts)
+router.route('/allProducts').get( productController.getAllProducts)
 
-router.get('/published', productController.getPublishedProduct)
-
-
+router.route('/published').get(productController.getPublishedProduct)
 
 // Review Url and Controller
 
-router.get('/allReviews', reviewController.getAllReviews)
-router.post('/addReview/:id', reviewController.addReview)
+router.route('/allReviews').get(reviewController.getAllReviews)
+router.route('/addReview').post(reviewController.addReview)
 
 // get product Reviews
-router.get('/getProductReviews/:id', productController.getProductReviews)
+router.route('/getProductReviews/:id').get( productController.getProductReviews)
 
 
 
 
 // Products router
-router.get('/:id', productController.getOneProduct)
+router.route('/:id').get(productController.getOneProduct)
 
-router.put('/:id', productController.updateProduct)
+router.route('/:id').put(productController.updateProduct)
 
-router.delete('/:id', productController.deleteProduct)
+router.route('/:id').delete(productController.deleteProduct)
 
 module.exports = router

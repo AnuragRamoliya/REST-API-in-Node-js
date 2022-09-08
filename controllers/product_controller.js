@@ -1,10 +1,4 @@
-const db = require('../schema')
-
 const productModel = new (require('../models/product'))();
-// create main Model
-const Product = db.products
-const Review = db.reviews
-
 // main work
 class ProductController {
     async addProduct(req, res) {
@@ -19,7 +13,7 @@ class ProductController {
 
     async getAllProducts(req, res) {
         try {
-            let data = await productModel.getAllProducts(req.body);
+            let data = await productModel.getAllProducts();
 
             res.status(200).send(data)
         } catch (error) {
@@ -29,7 +23,7 @@ class ProductController {
 
     async getOneProduct(req, res) {
         try {
-            let data = await productModel.getOneProduct(req.body);
+            let data = await productModel.getOneProduct(req.params.id);
 
             res.status(200).send(data)
         } catch (error) {
@@ -39,7 +33,7 @@ class ProductController {
 
     async updateProduct(req, res) {
         try {
-            let data = await productModel.updateProduct(req.body);
+            let data = await productModel.updateProduct(req.params.id);
 
             res.status(200).send(data)
         } catch (error) {

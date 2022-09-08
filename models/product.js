@@ -1,90 +1,74 @@
-const { product: productSchema } = require('../schema');
+const { product: productSchema,
+        review: reviewSchema,
+} = require('../schema');
 class productModel {
     // 1. add product
-    async addProduct(req, res){
+    async addProduct(data){
 
         let info = {
-            title: req.body.title,
-            price: req.body.price,
-            description: req.body.description,
-            published: req.body.published ? req.body.published : false
+            title: data.title,
+            price: data.price,
+            description: data.description,
+            published: data.published ? data.published : false
         }
 
         const product = await productSchema.create(info)
-        res.status(200).send(product)
-        console.log(product)
+        return product
 
     }
 
     // 2. get all products
 
-    async getAllProducts(req, res){
+    async getAllProducts(data){
 
-        let products = await productSchema.findAll({})
-        res.status(200).send(products)
-
+        let products = await productSchema.findAll()
+        return products
     }
 
     // 3. get single product
 
-    async getOneProduct(req, res){
+    async getOneProduct(id){
 
-        let id = req.params.id
         let product = await productSchema.findOne({ where: { id: id }})
-        res.status(200).send(product)
+        return product
 
     }
 
     // 4. update Product
 
-    async updateProduct(req, res){
-
-        let id = req.params.id
-
+    async updateProduct(id){
         const product = await productSchema.update(req.body, { where: { id: id }})
-
-        res.status(200).send(product)
-    
-
+        return product
     }
 
     // 5. delete product by id
 
-    async deleteProduct(req, res) {
-
-        let id = req.params.id
-        
+    async deleteProduct(id) {
         await productSchema.destroy({ where: { id: id }} )
-
-        res.status(200).send(`Product is deleted ! id : ${id}`)
-
+        res.send(`Product is deleted ! id : ${id}`)
     }
 
     // 6. get published product
 
-    async getPublishedProduct(req, res){
+    async getPublishedProduct(data){
 
-        const products =  await productSchema.findAll({ where: { price: 38000 }})
+        const products =  await productSchema.findAll({ where: { price: data.price }})
 
-        res.status(200).send(products)
+        return products
 
     }
 
     // 7. connect one to many relation Product and Reviews
 
-    async getProductReviews(req, res){
-
-        const id = req.params.id
-
+    async getProductReviews(id){
         const data = await productSchema.findOne({
+            where: { id: id },
             include: [{
-                model: Review,
-                as: 'review'
+                model: reviewSchema,
             }],
-            where: { id: id }
         })
 
-        res.status(200).send(data)
+        return data;
 
     }
 }

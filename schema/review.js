@@ -1,21 +1,32 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class address_types extends Model {
+    class review extends Model {
         static associate(models) {
-            address_types.belongsTo(models.products, {
+            review.belongsTo(models.product, {
                 foreignKey: 'product_id',
-                as: 'product'
+                onDelete	: 'cascade'
             })
         }
     }
-    address_types.init({
+    review.init({
+        id: {
+			autoIncrement: true,
+			primaryKey: true,
+			type: DataTypes.BIGINT(20).UNSIGNED
+		},
+        product_id:{
+            type: DataTypes.BIGINT(20).UNSIGNED
+        },
         rating: {
             type: DataTypes.INTEGER
         },
         description: {
             type: DataTypes.TEXT
         }
-    })
+    },{
+		sequelize,
+		modelName: 'review',
+	})
 
-    return address_types
+    return review
 }
