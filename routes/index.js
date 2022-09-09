@@ -4,6 +4,7 @@ module.exports = (app) => {
     });
 
     app.use("/product", require("./product"));
-    // app.use("/review", require("./review"));
+    app.use("/review", require("./review"));
+    app.use("/user", require("./user"));
     
 }
