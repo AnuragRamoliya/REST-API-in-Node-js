@@ -1,4 +1,7 @@
-const { user: userSchema } = require('../schema');
+const { user: userSchema,
+        user_token: userTokenSchema 
+} = require('../schema');
+
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -59,10 +62,25 @@ class userModel {
         }
 
         let token = jwt.sign({email:check_email.email},process.env.SECRET_KEY);
+        await userTokenSchema.create({access_token:token,user_id:check_email.id})
         return {
             user:check_email,
             token:token
         };
+    }
+
+    async getUserTokenInfo(access_token) {
+        return await userTokenSchema.findOne({
+            where: {
+                access_token
+            },
+            attributes: ['user_id', 'updatedAt'],
+            include: [
+                {
+                    model: userSchema,
+                }
+            ]
+        });
     }
 }
 
