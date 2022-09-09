@@ -7,15 +7,9 @@ class UserController {
         try {
             let data = await userModel.add(req.body);
 
-            res.status(200).json({
-                message: 'Request has been completed successfully',
-                data
-            })
+            res.handler.success(data, STATUS_MESSAGES.LOGIN_SUCCESS);
         } catch (error) {
-            res.status(401).json({
-                message: 'Request failed due to an internal error.',
-                data
-            })
+            res.handler.serverError(error)
         }
     }
 
@@ -24,15 +18,19 @@ class UserController {
             console.log("first")
             let data = await userModel.login(req.body);
 
-            res.status(200).json({
-                message: 'Request has been completed successfully',
-                data
-            })
+            if (data.status === STATUS_CODES.NOT_VALID_DATA) {
+                res.handler.validationError(undefined, data.message);
+                return;
+            }
+
+            if (data.status === STATUS_CODES.NOT_FOUND) {
+                res.handler.notFound(undefined, data.message);
+                return;
+            }
+
+            res.handler.success(data, STATUS_MESSAGES.LOGIN_SUCCESS);
         } catch (error) {
-            res.status(401).json({
-                message: 'Request failed due to an internal error.',
-                data
-            })
+            res.handler.serverError(error)
         }
     }
 }
