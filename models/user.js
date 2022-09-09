@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 class userModel {
     async add(data) {
+        console.log("date b here", data);
 
         let check_email= await userSchema.findOne({
             where:{email:data.email}
