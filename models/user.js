@@ -47,8 +47,8 @@ class userModel {
 
         if(!check_email){
             return {
-                status: 401,
-                message: "user not found"
+                status: STATUS_CODES.NOT_FOUND,
+                message: STATUS_MESSAGES.NOT_FOUND.USER
             };
         }
 
@@ -56,8 +56,8 @@ class userModel {
 
         if(!match_password){
             return {
-                status: 401,
-                message: "Invalid Credentials"
+                status: STATUS_CODES.NOT_VALID_DATA,
+                message: STATUS_MESSAGES.PASSWORD.INCORRECT
             };
         }
 
