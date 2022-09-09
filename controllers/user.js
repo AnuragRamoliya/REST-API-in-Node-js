@@ -15,7 +15,6 @@ class UserController {
 
     async login(req, res) {
         try {
-            console.log("first")
             let data = await userModel.login(req.body);
 
             if (data.status === STATUS_CODES.NOT_VALID_DATA) {
