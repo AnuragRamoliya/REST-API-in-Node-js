@@ -6,7 +6,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 class userModel {
-    async add(data) {
+    async signup(data) {
 
         let check_email= await userSchema.findOne({
             where:{email:data.email}
@@ -14,15 +14,15 @@ class userModel {
         if(check_email)
         {
             return {
-                status: 401,
-                message: "user already exists"
+                status: STATUS_CODES.ALREADY_REPORTED,
+                message: STATUS_MESSAGES.EXISTS.EMAIL
             };
         }
 
         if(data.password !== data.confirm_password){
             return {
-                status: 401,
-                message: "password and confirm password does not match"
+                status: STATUS_CODES.NOT_VALID_DATA,
+                message: STATUS_MESSAGES.PASSWORD.NOT_SAME
             };
         }else{
             let hashPassword = await bcrypt.hash(data.password,10);
@@ -40,7 +40,7 @@ class userModel {
         
     }
 
-    async login(data) {
+    async signin(data) {
         let check_email= await userSchema.findOne({
             where:{email:data.email}
         })

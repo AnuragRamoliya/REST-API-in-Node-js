@@ -6,7 +6,7 @@ const router = (require('express')).Router()
 const userController = new (require('../controllers/user.js'))();
 
 // use routers
-router.route('/add').post(userController.add)
-router.route('/login').post(userController.login)
+router.route('/signup').post(userController.signup)
+router.route('/signin').post(userController.signin)
 
 module.exports = router

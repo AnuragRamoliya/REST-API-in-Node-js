@@ -8,23 +8,23 @@ const Authenticator = (new (require('../middleware/authentication'))());
 const authenticate = Authenticator.authenticate;
 
 // use routers
-router.route('/addProduct').post( productController.addProduct)
+router.route('/addProduct').post(authenticate,productController.addProduct)
 
 router.route('/allProducts').get(authenticate,productController.getAllProducts)
 
 router.route('/published').get(authenticate,productController.getPublishedProduct)
 
 // get product Reviews
-router.route('/getProductReviews/:id').get( productController.getProductReviews)
+router.route('/getProductReviews/:id').get(authenticate,productController.getProductReviews)
 
 // Products router
-router.route('/:id').get(productController.getOneProduct)
+router.route('/:id').get(authenticate,productController.getOneProduct)
 
-router.route('/:id').put(productController.updateProduct)
+router.route('/:id').put(authenticate,productController.updateProduct)
 
-router.route('/:id').delete(productController.deleteProduct)
+router.route('/:id').delete(authenticate,productController.deleteProduct)
 
 // export product detail in CSV file 
-router.route('/export/:id').get(productController.export)
+router.route('/export/:id').get(authenticate,productController.export)
 
 module.exports = router
