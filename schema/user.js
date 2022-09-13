@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             comment: "Last name of user"
         },
+        contact_no: {
+            type: DataTypes.STRING(50),
+            comment: "Mobile number of user",
+            defaultValue: ''
+        },
         username: {
             type: DataTypes.STRING(255),
             comment: "Username of user"

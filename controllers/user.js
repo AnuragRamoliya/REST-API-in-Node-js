@@ -42,6 +42,26 @@ class UserController {
             res.handler.serverError(error)
         }
     }
+
+    async getProfile(req, res) {
+        try {
+            let data = await userModel.getProfile(req.userInfo);
+
+            res.handler.success(data);
+        } catch (error) {
+            res.handler.serverError(error)
+        }
+    }
+
+    async updateProfile(req, res) {
+        try {
+            let data = await userModel.updateProfile(req.body,req.userInfo);
+
+            res.handler.success(data);
+        } catch (error) {
+            res.handler.serverError(error)
+        }
+    }
 }
 
 module.exports = UserController;

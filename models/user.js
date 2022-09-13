@@ -27,7 +27,15 @@ class userModel {
         }else{
             let hashPassword = await bcrypt.hash(data.password,10);
 
-            let user = await userSchema.create({email:data.email,username:data.username,password:hashPassword})
+            let register_data ={
+                first_name:data.first_name,
+                last_name:data.last_name,
+                contact_no:data.contact_no,
+                email:data.email,
+                username:data.username,
+                password:hashPassword
+            } 
+            let user = await userSchema.create(register_data)
             // return user;
 
             let token = jwt.sign({email:user.email},process.env.SECRET_KEY);
@@ -80,6 +88,22 @@ class userModel {
                     model: userSchema,
                 }
             ]
+        });
+    }
+
+    async getProfile(userInfo) {
+        return await userSchema.findOne({
+            where: {
+                id:userInfo.id
+            },
+        });
+    }
+
+    async updateProfile(data,userInfo) {
+        return await userSchema.update(data,{
+            where: {
+                id:userInfo.id
+            },
         });
     }
 }
