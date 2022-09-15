@@ -1,5 +1,9 @@
+
+const path = require('path');
+
 const { user: userSchema,
-        user_token: userTokenSchema 
+        user_token: userTokenSchema, 
+        user_image: userImageSchema 
 } = require('../schema');
 
 require('dotenv').config();
@@ -92,10 +96,13 @@ class userModel {
     }
 
     async getProfile(userInfo) {
-        return await userSchema.findOne({
+        return await userSchema.findAll({
             where: {
                 id:userInfo.id
             },
+            include: [{
+                model: userImageSchema,
+            }],
         });
     }
 
@@ -105,6 +112,26 @@ class userModel {
                 id:userInfo.id
             },
         });
+    }
+
+    async imageUpload(data, userInfo) {
+        if(!data){
+            console.log("data not found",data)
+            // return {
+            //     status: STATUS_CODES.NOT_FOUND,
+            //     message: STATUS_MESSAGES.NOT_FOUND.IMAGE
+            // };
+        }
+        console.log("data.file >>",data)
+        let imgUrl = path.join("../images/Temp/Original/"+data.file)
+        console.log("img url", imgUrl)
+
+        let reqBody = {
+            image: imgUrl , user_id : userInfo.id
+        };
+
+        return await userImageSchema.create(reqBody);
+        
     }
 }
 

@@ -83,6 +83,7 @@ exports.STATUS_MESSAGES = {
     EMAIL_VERIFIED_ALREADY: "Your account is already verified.",
     REGISTER_SUCCESS: "You have successfully signed up.",
     LOGIN_SUCCESS: "You have successfully logged in.",
+    IMAGE_SUCCESS: "Your image has been successfully saved.",
     RESET_PASSWORD_ALREADY: "You already have reset the password with this token.",
     
     EXISTS: {
@@ -103,6 +104,7 @@ exports.STATUS_MESSAGES = {
         NOTIFICATION_GROUP: "Notification group is not available in our system!",
         NOTIFICATION_GROUP_USER: "Notification group user is not available in our system!",
         EMAIL: "Your email address is not available in our system!",
+        IMAGE: "Image not available.",
         ACCOUNT: "We can't find this account",
         CLOCK_IN: "You haven't clock in into system yet.",
         CLOCK_TIME_ENTRY_EXPORT: "You haven't clock in into system with selected duration.",
@@ -788,5 +790,28 @@ exports.STATUS_MESSAGES = {
         },
         INQUIRY_SUBMISSION_SUCCESS:"Inquiry form submitted successfully",
         INQUIRY_SUBMISSION_FAILED:"Something went wrong while submitting your query"
+    }
+};
+
+// File Path
+exports.PATHS = {
+    IMAGES: {
+        ORIGINAL: "/Original",
+        THUMB: "/Thumb",
+        TEMP: "/Temp",
+        USERS: "/Users",
+        CATEGORIES: "/Categories",
+        CATEGORY_BANNER: "/Categories/banner",
+        PRODUCTS: "/Products",
+        PRODUCT_BANNER: "/Products/banner",
+        HOME_PAGE_BANNER: "/home-page/banner",
+        LOCATIONS_BANNER: "/locations/banner",
+        BLOGS_BANNER: "/blogs/banner",
+        CERTIFICATIONS: "/certifications",
+        WORKED_WITH: "/worked-with",
+        OTHER: "/other"
+    },
+    UPLOADS: {
+        PRINT_MESSAGE: "/Uploads/PrintMessage"
     }
 };

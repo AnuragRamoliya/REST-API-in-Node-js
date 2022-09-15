@@ -16,6 +16,7 @@ router.route('/getprofile').get(authenticate,userController.getProfile)
 
 // get user details
 router.route('/updateProfile').put(authenticate,userController.updateProfile)
+router.route('/imageUpload').post(authenticate,userController.uploadImage().single('file'), userController.imageUpload)
 
 
 module.exports = router

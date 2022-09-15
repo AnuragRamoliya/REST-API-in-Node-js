@@ -9,9 +9,11 @@ const app = express()
 // middleware
 app.use(cors())
 app.use(express.json())
+app.use(express.static(__dirname + '/public/images'))
 
 app.use(express.urlencoded({ extended: true }))
-
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 //response handler
 app.use((req, res, next) => {
     const ResponseHandler = require('./config/response_handler')

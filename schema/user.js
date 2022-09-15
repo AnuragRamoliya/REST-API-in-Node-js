@@ -2,10 +2,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class user extends Model {
         static associate(models) {
-            // user.belongsTo(models.product, {
-            //     foreignKey: 'product_id',
-            //     onDelete	: 'cascade'
-            // })
+            user.hasMany(models.user_image, {
+                foreignKey: 'user_id',
+                onDelete	: 'cascade'
+            })
         }
     }
     user.init({

@@ -1,4 +1,16 @@
 const userModel = new (require('../models/user'))();
+const multer = require('multer');
+const path = require('path');
+
+const {PATHS} =require('../config/constant')
+
+let tempPath = {
+    base: path.join(__dirname, "../public/images" + PATHS.IMAGES.TEMP),
+    original: path.join(__dirname, "../public/images" + PATHS.IMAGES.TEMP + PATHS.IMAGES.ORIGINAL + "/"),
+    thumb: path.join(__dirname, "../public/images" + PATHS.IMAGES.TEMP + PATHS.IMAGES.THUMB + "/")
+}
+tempPath[PATHS.IMAGES.ORIGINAL] = tempPath.original
+tempPath[PATHS.IMAGES.THUMB] = tempPath.thumb;
 
 class UserController {
 
@@ -61,6 +73,48 @@ class UserController {
         } catch (error) {
             res.handler.serverError(error)
         }
+    }
+
+    async imageUpload(req, res) {
+        console.log("req.body >>>", req.body);
+        try {
+            let file = await userModel.imageUpload(req.body ,req.userInfo);
+            console.log("req.body", req.body);
+            res.handler.success(file, STATUS_MESSAGES.IMAGE_SUCCESS);
+        } catch (error) {
+            console.log("error >>>",error)
+            res.handler.serverError(error)
+        }
+    }
+
+    getFileName(file) {
+        console.log("object >>>",file);
+    return file.originalname.split('.')[0].replace(/[^A-Z0-9]/ig, "_") + '_' + Date.now() + '_' + Math.floor(Math.random() * 999) + 99 + path.extname(file.originalname)}
+
+    resolvePath(filepath){
+        return path.join(__dirname,"../../Frontend/public/images"+filepath+"/")
+    }
+
+    uploadImage() {
+        // console.log("first")
+        var storage = multer.diskStorage({
+            destination: function (req, file, callBack) {
+                callBack(null, this.resolvePath(PATHS.IMAGES.TEMP +PATHS.IMAGES.ORIGINAL))  
+            }.bind(this),
+            filename: function (req, file, callBack)  {
+                let fileName = this.getFileName(file);
+            //    console.log("before file name",fileName);
+                if (!req.body[file.fieldname]) {
+                    req.body[file.fieldname] = []
+                    req.body[file.fieldname].push(fileName)
+                } else
+                    req.body[file.fieldname].push(fileName)
+                // console.log("fileName", req.body.file)
+                callBack(null, fileName)
+            }.bind(this),
+        })
+        
+        return multer({storage})
     }
 }
 
